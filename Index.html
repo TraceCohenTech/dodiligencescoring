@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Due Diligence Form</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .due-diligence-form {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .criteria-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .criteria-label {
+            flex: 1;
+        }
+        .score-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background-color: #ddd;
+            cursor: pointer;
+        }
+        button.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .total-score {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const initialCriteria = [
+            { criteria: 'Experienced Founders', score: null },
+            { criteria: 'Unique Value Proposition', score: null },
+            { criteria: 'Market Potential', score: null },
+            { criteria: 'Innovative Technology', score: null },
+            { criteria: 'Competitive Advantage', score: null },
+            { criteria: 'Scalability', score: null },
+            { criteria: 'Customer Traction', score: null },
+            { criteria: 'Strategic Vision', score: null },
+            { criteria: 'Financial Health', score: null },
+            { criteria: 'Exit potential / fund returner', score: null },
+            { criteria: 'Founder startup personality', score: null },
+
+        ];
+
+        const DueDiligenceForm = () => {
+            const [scores, setScores] = React.useState(initialCriteria);
+
+            const handleScoreChange = (index, value) => {
+                const newScores = [...scores];
+                newScores[index].score = value;
+                setScores(newScores);
+            };
+
+            const totalScore = scores.reduce((sum, item) => sum + (item.score || 0), 0);
+
+            return (
+                <div className="due-diligence-form">
+                    <h2>Startup Due Diligence Form</h2>
+                    {scores.map((item, index) => (
+                        <div key={index} className="criteria-row">
+                            <span className="criteria-label">{item.criteria}</span>
+                            <div className="score-buttons">
+                                {[1, 2, 4, 5].map((score) => (
+                                    <button
+                                        key={score}
+                                        onClick={() => handleScoreChange(index, score)}
+                                        className={item.score === score ? 'selected' : ''}
+                                    >
+                                        {score}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                    <div className="total-score">
+                        Total Score: {totalScore} / 50
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<DueDiligenceForm />, document.getElementById('root'));
+    </script>
+</body>
+</html>
